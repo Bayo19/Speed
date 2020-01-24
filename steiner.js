@@ -1,48 +1,54 @@
-let canvas = document.querySelector('canvas');
+var canvas = document.querySelector('canvas');
 
-ranCol = function(r, g, b) {
-    this.r = r;
-    this.g = g;
-    this.b = b;
-    r = Math.floor(Math.random() * 255);
-    g = Math.floor(Math.random() * 255);
-    b = Math.floor(Math.random() * 255);
-    let rgba = 'rgba';
-    canvas.style.backgroundColor = `${rgba}(${r},${g},${b}, 0.1)`;
+// ranCol = function(r, g, b) {
+//         this.r = r;
+//         this.g = g;
+//         this.b = b;
+//         r = Math.floor(Math.random() * 255);
+//         g = Math.floor(Math.random() * 255);
+//         b = Math.floor(Math.random() * 255);
+//         let rgba = 'rgba';
+//         canvas.style.backgroundColor = `${rgba}(${r},${g},${b}, 0.1)`;
 
 
-}
-ranCol2 = function(r, g, b) {
-    this.r = r;
-    this.g = g;
-    this.b = b;
-    r = Math.floor(Math.random() * 255);
-    g = Math.floor(Math.random() * 255);
-    b = Math.floor(Math.random() * 255);
-    let rgba = 'rgba';
-    var col = `${rgba}(${r},${g},${b}, 0.5)`;
-    return col;
+//     }
+// ranCol2 = function(r, g, b) {
+//     this.r = r;
+//     this.g = g;
+//     this.b = b;
+//     r = Math.floor(Math.random() * 255);
+//     g = Math.floor(Math.random() * 255);
+//     b = Math.floor(Math.random() * 255);
+//     let rgba = 'rgba';
+//     var col = `${rgba}(${r},${g},${b}, 0.5)`;
+//     return col;
 
-}
+// }
 
-// canvas.style.backgroundColor = ranCol();
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 
-let c = canvas.getContext('2d');
+var c = canvas.getContext('2d');
 
 // c.fillRect(x, y, width, height)
 
-c.fillStyle = ranCol2();
-c.fillRect(100, 100, 100, 100);
-c.fillRect(200, 200, 100, 100);
-c.fillRect(300, 300, 100, 100);
-c.fillRect(400, 200, 100, 100);
-c.fillRect(500, 100, 100, 100);
+// c.fillStyle = ranCol2();
+// c.fillRect(100, 100, 100, 100);
+// c.fillRect(200, 200, 100, 100);
+// c.fillRect(300, 300, 100, 100);
+// c.fillRect(400, 200, 100, 100);
+// c.fillRect(500, 100, 100, 100);
+// c.fillRect(600, 200, 100, 100);
+// c.fillRect(700, 300, 100, 100);
+// c.fillRect(800, 400, 100, 100);
+// c.fillRect(700, 500, 100, 100);
+// c.fillRect(600, 600, 100, 100);
+// c.fillRect(500, 500, 100, 100);
 
 
-console.log(canvas);
+
 
 // line
 // c.beginPath();
@@ -55,19 +61,74 @@ console.log(canvas);
 // c.strokeStyle = ranCol2();
 // c.stroke();
 
-for (let i = 0; i < 150; i++) {
-    var x = Math.random() * window.innerWidth
-    var y = Math.random() * window.innerHeight
-    let circSize = Math.floor(Math.random() * 50);
-    c.beginPath();
-    c.arc(x, y, circSize, 0, Math.PI * 2, false);
-    c.strokeStyle = ranCol2();
-    c.stroke();
-}
+// for (let i = 0; i < 150; i++) {
+//     var x = Math.random() * window.innerWidth
+//     var y = Math.random() * window.innerHeight
+//     let circSize = Math.floor(Math.random() * 50);
+//     c.beginPath();
+//     c.arc(x, y, circSize, 0, Math.PI * 2, false);
+//     c.strokeStyle = ranCol2();
+//     c.stroke();
+// }
 // Arc / Circle
 
 // c.arc(300, 300, 30, 0, Math.PI * 2, false);
 // c.strokeStyle = ranCol2();
 // c.stroke();
 
-setInterval(ranCol, 1010)
+
+
+function Circle(x, y, dx, dy, radius) {
+    this.x = x;
+    this.y = y;
+    this.dx = dx;
+    this.dy = dy;
+    this.radius = radius;
+
+    this.draw = function() {
+        c.beginPath();
+        c.arc(this.x, this.y, radius, 0, Math.PI * 2, false);
+        c.strokeStyle = 'blue';
+        c.stroke();
+    }
+    this.update = function() {
+        if (this.x + this.radius > innerWidth || this.x - this.radius < 0) {
+            this.dx = -this.dx;
+        }
+
+        if (this.y + this.radius > innerHeight || this.y - this.radius < 0) {
+            this.dy = -this.dy
+        }
+        this.x += this.dx;
+        this.y += this.dy;
+
+        this.draw();
+    }
+}
+
+
+
+var circleArray = [];
+for (var i = 0; i < 100; i++) {
+    var x = Math.floor(Math.random() * innerWidth)
+    var y = Math.floor(Math.random() * innerHeight)
+    var dx = (Math.random() - 0.5)
+    var dy = (Math.random() - 0.5)
+    var radius = 30
+    circleArray.push(new Circle(x, y, dx, dy, radius));
+}
+
+
+function animate() {
+    requestAnimationFrame(animate);
+    c.clearRect(0, 0, innerWidth, innerHeight);
+
+    for (var i = 0; i < circleArray.length; i++) {
+        circleArray[i].update();
+    }
+
+}
+
+animate()
+
+// setInterval(ranCol, 1010);
