@@ -1,29 +1,28 @@
 var canvas = document.querySelector('canvas');
 
-// ranCol = function(r, g, b) {
-//         this.r = r;
-//         this.g = g;
-//         this.b = b;
-//         r = Math.floor(Math.random() * 255);
-//         g = Math.floor(Math.random() * 255);
-//         b = Math.floor(Math.random() * 255);
-//         let rgba = 'rgba';
-//         canvas.style.backgroundColor = `${rgba}(${r},${g},${b}, 0.1)`;
+ranCol = function(r, g, b) {
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    r = Math.floor(Math.random() * 255);
+    g = Math.floor(Math.random() * 255);
+    b = Math.floor(Math.random() * 255);
+    let rgba = 'rgba';
+    canvas.style.backgroundColor = `${rgba}(${r},${g},${b}, 0.39)`;
 
+}
+ranCol2 = function(r, g, b) {
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    r = Math.floor(Math.random() * 255);
+    g = Math.floor(Math.random() * 255);
+    b = Math.floor(Math.random() * 255);
+    let rgba = 'rgba';
+    var col = `${rgba}(${r},${g},${b}, 0.9)`;
+    return col;
 
-//     }
-// ranCol2 = function(r, g, b) {
-//     this.r = r;
-//     this.g = g;
-//     this.b = b;
-//     r = Math.floor(Math.random() * 255);
-//     g = Math.floor(Math.random() * 255);
-//     b = Math.floor(Math.random() * 255);
-//     let rgba = 'rgba';
-//     var col = `${rgba}(${r},${g},${b}, 0.5)`;
-//     return col;
-
-// }
+}
 
 
 canvas.width = window.innerWidth;
@@ -86,10 +85,12 @@ function Circle(x, y, dx, dy, radius) {
     this.radius = radius;
 
     this.draw = function() {
+        c.fillStyle = ranCol2();
         c.beginPath();
         c.arc(this.x, this.y, radius, 0, Math.PI * 2, false);
-        c.strokeStyle = 'blue';
+        c.strokeStyle = ranCol2();
         c.stroke();
+        c.fill()
     }
     this.update = function() {
         if (this.x + this.radius > innerWidth || this.x - this.radius < 0) {
@@ -110,11 +111,12 @@ function Circle(x, y, dx, dy, radius) {
 
 var circleArray = [];
 for (var i = 0; i < 100; i++) {
-    var x = Math.floor(Math.random() * innerWidth)
-    var y = Math.floor(Math.random() * innerHeight)
-    var dx = (Math.random() - 0.5)
-    var dy = (Math.random() - 0.5)
     var radius = 30
+    var x = Math.floor(Math.random() * (innerWidth - radius * 2) + radius)
+    var y = Math.floor(Math.random() * (innerHeight - radius * 2) + radius)
+    var dx = (Math.random() - 0.5) * 4
+    var dy = (Math.random() - 0.5) * 4
+
     circleArray.push(new Circle(x, y, dx, dy, radius));
 }
 
@@ -131,4 +133,4 @@ function animate() {
 
 animate()
 
-// setInterval(ranCol, 1010);
+setInterval(ranCol, 1);
