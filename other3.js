@@ -1,3 +1,5 @@
+// black canvas with random coloured balls that grow when the mouse is near them but also increase in speed randomly and in different directions
+
 var canvas = document.querySelector('canvas');
 
 // random rgba color with a constant alpha property
@@ -29,20 +31,13 @@ var mouse = {
     y: undefined
 }
 
-var maxRadius = 60;
+var maxRadius = 40;
 var minRadius = 4;
 
 window.addEventListener('mousemove', function(e) {
     mouse.x = e.x;
     mouse.y = e.y;
 
-})
-
-window.addEventListener('resize', function() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    init();
 })
 
 // creating Circle contstructor
@@ -52,7 +47,6 @@ function Circle(x, y, dx, dy, radius) {
     this.dx = dx;
     this.dy = dy;
     this.radius = radius;
-    this.minRadius = radius;
     this.color = ranCol();
     //the color is here instead of in the draw method so that it stays constant instead of changing everytime the circle is drawn
 
@@ -87,7 +81,7 @@ function Circle(x, y, dx, dy, radius) {
                 this.dy -= Math.random();
             }
 
-        } else if (this.radius > this.minRadius) {
+        } else if (this.radius > minRadius) {
             this.radius -= 1;
         }
 
@@ -95,26 +89,18 @@ function Circle(x, y, dx, dy, radius) {
     }
 }
 
+// create empty array, 100 new circles with a radius of 30 in random places on the page at a random velocity then pushed these circles into the empty array
 var circleArray = [];
-// create empty array
+for (var i = 0; i < 100; i++) {
+    var radius = 30;
+    var x = Math.floor(Math.random() * (innerWidth - radius * 2) + radius)
+    var y = Math.floor(Math.random() * (innerHeight - radius * 2) + radius)
+    var dx = (Math.random() - 0.5) * 4
+    var dy = (Math.random() - 0.5) * 4
 
-function init() {
-    // initializing and put this function in the resize event listener function so that the circles can be generated everytime we resize the browser window
-
-    // create  100 new circles with a radius of 30 in random places on the page at a random velocity then pushed these circles into the empty array
-    circleArray = [];
-
-    for (var i = 0; i < 200; i++) {
-        var radius = Math.random() * 3 + 1;
-        var x = Math.floor(Math.random() * (innerWidth - radius * 2) + radius)
-        var y = Math.floor(Math.random() * (innerHeight - radius * 2) + radius)
-        var dx = (Math.random() - 0.5) * 4
-        var dy = (Math.random() - 0.5) * 4
-
-        circleArray.push(new Circle(x, y, dx, dy, radius));
-    }
-
+    circleArray.push(new Circle(x, y, dx, dy, radius));
 }
+
 // animation function
 function animate() {
     requestAnimationFrame(animate);
@@ -125,5 +111,5 @@ function animate() {
     }
 
 }
-init();
+
 animate();
