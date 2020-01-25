@@ -8,7 +8,7 @@ ranCol = function(r, g, b) {
     g = Math.floor(Math.random() * 255);
     b = Math.floor(Math.random() * 255);
     let rgba = 'rgba';
-    canvas.style.backgroundColor = `${rgba}(${r},${g},${b}, 0.6)`;
+    canvas.style.backgroundColor = `${rgba}(${r},${g},${b}, 0.39)`;
 
 }
 ranCol2 = function(r, g, b) {
@@ -75,19 +75,7 @@ var c = canvas.getContext('2d');
 // c.strokeStyle = ranCol2();
 // c.stroke();
 
-var mouse = {
-    x: undefined,
-    y: undefined
-}
 
-var maxRadius = 40;
-var minRadius = 4;
-
-
-window.addEventListener('mousemove', function(event) {
-    mouse.x = event.x;
-    mouse.y = event.y;
-})
 
 function Circle(x, y, dx, dy, radius) {
     this.x = x;
@@ -97,9 +85,10 @@ function Circle(x, y, dx, dy, radius) {
     this.radius = radius;
 
     this.draw = function() {
+        c.fillStyle = ranCol2();
         c.beginPath();
-        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        c.strokeStyle = 'blue';
+        c.arc(this.x, this.y, radius, 0, Math.PI * 2, false);
+        c.strokeStyle = ranCol2();
         c.stroke();
         c.fill()
     }
@@ -114,16 +103,6 @@ function Circle(x, y, dx, dy, radius) {
         this.x += this.dx;
         this.y += this.dy;
 
-        // Interactivity
-        if (mouse.x - this.x < 50 && mouse.x - this.x > -50 && mouse.y - this.y < 50 && mouse.y - this.y > -50) {
-            if (this.radius < maxRadius) {
-                this.radius += 1;
-            }
-
-        } else if (this.radius > minRadius) {
-            this.radius -= 1;
-        }
-
         this.draw();
     }
 }
@@ -132,7 +111,7 @@ function Circle(x, y, dx, dy, radius) {
 
 var circleArray = [];
 for (var i = 0; i < 100; i++) {
-    var radius = 30;
+    var radius = 30
     var x = Math.floor(Math.random() * (innerWidth - radius * 2) + radius)
     var y = Math.floor(Math.random() * (innerHeight - radius * 2) + radius)
     var dx = (Math.random() - 0.5) * 4
@@ -152,6 +131,6 @@ function animate() {
 
 }
 
-animate();
+animate()
 
-setInterval(ranCol, 100);
+setInterval(ranCol, 1);
